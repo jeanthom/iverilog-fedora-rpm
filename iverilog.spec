@@ -1,8 +1,8 @@
-%define      snapshot 20070123
+%define      snapshot 20070227
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     5%{?dist}
+Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPL
@@ -73,6 +73,9 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
+- new snapshoot release.
+
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070123-5
 - clean junks from tarball
 - exlude static library
