@@ -1,4 +1,4 @@
-%define      snapshot 20070227
+%define      snapshot 20070421
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -73,6 +73,9 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Mon Apr 23 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070421-1
+- new snapshot release upstream.
+
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
 - new snapshoot release.
 
