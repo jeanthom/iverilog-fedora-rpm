@@ -2,7 +2,7 @@
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     1%{?dist}
+Release:     2%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPL
@@ -73,6 +73,9 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.9.20070608-2
+- Autorebuild for GCC 4.3
+
 * Sun Jun 10 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070608-1
 - new snapshot release upstream.
 
