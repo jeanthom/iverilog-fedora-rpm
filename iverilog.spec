@@ -1,8 +1,8 @@
-%define      snapshot 20070608
+%define      snapshot 20080314
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     2%{?dist}
+Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPL
@@ -53,6 +53,8 @@ rm -rf %{buildroot}
              vpidir=%{buildroot}%{_libdir}/ivl/ \
              INSTALL="install -p" \
 install
+%check
+make check
 
 %clean
 rm -rf %{buildroot}
@@ -73,6 +75,10 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Fri Mar 28 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080314-1
+- new snapshot release upstream.
+- add check section for some tests
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.9.20070608-2
 - Autorebuild for GCC 4.3
 
