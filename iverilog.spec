@@ -1,11 +1,11 @@
-%define      snapshot 20080314
+%define      snapshot 20080429
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
 Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
-License:     GPL
+License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
 Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.gz
 Patch0:      %{name}-pagesize.patch
@@ -75,6 +75,9 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Mon May 26 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080429-1
+- new snapshot release upstream.
+
 * Fri Mar 28 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080314-1
 - new snapshot release upstream.
 - add check section for some tests
