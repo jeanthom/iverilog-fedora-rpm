@@ -1,11 +1,11 @@
-%define      snapshot 20070608
+%define      snapshot 20080905
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
 Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
-License:     GPL
+License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
 Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.gz
 Patch0:      %{name}-pagesize.patch
@@ -53,6 +53,8 @@ rm -rf %{buildroot}
              vpidir=%{buildroot}%{_libdir}/ivl/ \
              INSTALL="install -p" \
 install
+%check
+make check
 
 %clean
 rm -rf %{buildroot}
@@ -60,7 +62,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc COPYING README.txt BUGS.txt QUICK_START.txt ieee1364-notes.txt
-%doc swift.txt netlist.txt t-dll.txt vpi.txt xnf.txt tgt-fpga/fpga.txt
+%doc swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
 %doc cadpli/cadpli.txt xilinx-hint.txt examples/*
 %{_bindir}/*
 %dir %{_libdir}/ivl
@@ -73,6 +75,19 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Fri Sep 12 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080905-1
+- new snapshot release upstream.
+
+* Mon May 26 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080429-1
+- new snapshot release upstream.
+
+* Fri Mar 28 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080314-1
+- new snapshot release upstream.
+- add check section for some tests
+
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.9.20070608-2
+- Autorebuild for GCC 4.3
+
 * Sun Jun 10 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070608-1
 - new snapshot release upstream.
 
