@@ -1,4 +1,4 @@
-%define      snapshot 20080905
+%define      snapshot 20081118
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -75,6 +75,9 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.a
 
 %changelog
+* Sun Dec 07 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20081118-1
+- new snapshot release upstream.
+
 * Fri Sep 12 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080905-1
 - new snapshot release upstream.
 
