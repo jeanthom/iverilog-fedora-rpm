@@ -1,13 +1,13 @@
-%define      snapshot 20081118
+%define      snapshot 20090423
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     1%{?dist}
+Release:     5%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
-Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.gz
+Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-0.9.1.tar.gz
 Patch0:      %{name}-pagesize.patch
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -27,7 +27,7 @@ Requires:    %{name} = %{version}-%{release}
 Icarus Verilog devel files.
 
 %prep
-%setup -q -n verilog-%{snapshot} 
+%setup -q -n verilog-0.9.1
 %patch0 -p0 -b .pagesize~
 
 # clean junks from tarball
@@ -37,7 +37,7 @@ rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
 %build
 
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
-%configure  --disable-vvp32
+%configure
 
 make %{?_smp_mflags}
 
@@ -53,6 +53,9 @@ rm -rf %{buildroot}
              vpidir=%{buildroot}%{_libdir}/ivl/ \
              INSTALL="install -p" \
 install
+
+
+
 %check
 make check
 
@@ -61,20 +64,32 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING README.txt BUGS.txt QUICK_START.txt ieee1364-notes.txt
-%doc swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
-%doc cadpli/cadpli.txt xilinx-hint.txt examples/*
+# contents of QUICK_START.txt can be found also on README.txt, hence omitted
+%doc attributes.txt BUGS.txt COPYING extensions.txt glossary.txt ieee1364-notes.txt
+%doc README.txt swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
+%doc va_math.txt cadpli/cadpli.txt xilinx-hint.txt examples/
 %{_bindir}/*
-%dir %{_libdir}/ivl
-%{_libdir}/ivl/*
+%{_libdir}/ivl
 %{_mandir}/man1/*
 
 %files devel
 %defattr(-,root,root,-)
+# headers for PLI: This is intended to be used by the user.
 %{_includedir}/*.h
-%exclude %{_libdir}/*.a
+# RHBZ 480531
+%{_libdir}/*.a
+
 
 %changelog
+* Mon Jun 13 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20090423-5
+- Improved VPI support
+
+* Mon Mar 23 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20081118-4
+- new development release
+
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20081118-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Sun Dec 07 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20081118-1
 - new snapshot release upstream.
 
@@ -98,7 +113,7 @@ rm -rf %{buildroot}
 - new snapshot release upstream.
 
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
-- new snapshoot release.
+- new snapshot release.
 
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070123-5
 - clean junks from tarball
