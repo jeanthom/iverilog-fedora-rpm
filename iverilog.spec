@@ -2,7 +2,7 @@
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     4.%{?dist}
+Release:     5%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPLv2
@@ -54,6 +54,8 @@ rm -rf %{buildroot}
              INSTALL="install -p" \
 install
 
+
+
 %check
 make check
 
@@ -62,20 +64,26 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING README.txt BUGS.txt QUICK_START.txt ieee1364-notes.txt
-%doc swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
-%doc cadpli/cadpli.txt xilinx-hint.txt examples/*
+# contents of QUICK_START.txt can be found also on README.txt, hence omitted
+%doc attributes.txt BUGS.txt COPYING extensions.txt glossary.txt ieee1364-notes.txt
+%doc README.txt swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
+%doc va_math.txt cadpli/cadpli.txt xilinx-hint.txt examples/
 %{_bindir}/*
-%dir %{_libdir}/ivl
-%{_libdir}/ivl/*
+%{_libdir}/ivl
 %{_mandir}/man1/*
 
 %files devel
 %defattr(-,root,root,-)
+# headers for PLI: This is intended to be used by the user.
 %{_includedir}/*.h
-%exclude %{_libdir}/*.a
+# RHBZ 480531
+%{_libdir}/*.a
+
 
 %changelog
+* Mon Jun 13 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20090423-5
+- Improved VPI support
+
 * Mon Mar 23 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20081118-4
 - new development release
 
