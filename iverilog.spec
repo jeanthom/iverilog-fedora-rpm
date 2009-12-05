@@ -5,7 +5,7 @@
 #Version:     1.0
 #Release:     1.snap%{snapshot}%{?dist}
 
-%define      snapshot 20091204
+%define      snapshot 20091205
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -15,10 +15,11 @@ Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
 Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.bz2
-#Patch0:      %{name}-pagesize.patch
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: zlib-devel bzip2-devel bison flex gperf
+BuildRequires: autoconf
+ 
 
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
@@ -36,7 +37,6 @@ Icarus Verilog devel files.
 %prep
 %setup -q -n verilog-%{snapshot}
 
-sed -i "s|tail +2|tail -n +2|" Makefile.in driver/Makefile.in vvp/Makefile.in
 sh autoconf.sh
 
 # clean junks from tarball
@@ -49,8 +49,7 @@ rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
 %configure
 
-make 
-#{?_smp_mflags}
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -92,6 +91,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Dec 05 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091205-1
+- New development snapshot - 0.9.2 prerelease snapshot
+
 * Fri Dec 04 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091204-1
 - New development snapshot - 0.9.2 prerelease snapshot
 
