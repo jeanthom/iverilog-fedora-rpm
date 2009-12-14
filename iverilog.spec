@@ -5,16 +5,28 @@
 #Version:     1.0
 #Release:     1.snap%{snapshot}%{?dist}
 
-%define      snapshot 20091205
+#
+# Test suite for iverilog is detailed on
+# https://fedorahosted.org/fedora-electronic-lab/wiki/Testing/iverilog
+# Please execute the testsuite as explained before pushed a new release to stable repos
+#
+
+%define      snapshot 20091212
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
 Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
+
 Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
+
+# Snapshot : git clone git://icarus.com/~steve-icarus/verilog
+# cd verilog
+# git checkout --track -b v0_9-branch origin/v0_9-branch
 Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.bz2
+
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: zlib-devel bzip2-devel bison flex gperf
@@ -91,6 +103,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Dec 12 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091212-1
+- New development snapshot - 0.9.2 final prerelease snapshot
+
 * Sat Dec 05 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091205-1
 - New development snapshot - 0.9.2 prerelease snapshot
 
