@@ -11,7 +11,7 @@
 # Please execute the testsuite as explained before pushed a new release to stable repos
 #
 
-%define      snapshot 20091212
+%define      snapshot 20091230
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -22,16 +22,19 @@ Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
 
-# Snapshot : git clone git://icarus.com/~steve-icarus/verilog
+# Development Snapshot Download :
+# git clone git://icarus.com/~steve-icarus/verilog
 # cd verilog
 # git checkout --track -b v0_9-branch origin/v0_9-branch
-Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.bz2
+
+# This is the latest stable snapshot
+Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.2.tar.gz
 
 BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: zlib-devel bzip2-devel bison flex gperf
 BuildRequires: autoconf
- 
+
 
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
@@ -47,9 +50,9 @@ Requires:    %{name} = %{version}-%{release}
 Icarus Verilog devel files.
 
 %prep
-%setup -q -n verilog-%{snapshot}
+%setup -q -n verilog-0.9.2
 
-sh autoconf.sh
+#sh autoconf.sh
 
 # clean junks from tarball
 find . -type f -name ".git" -exec rm '{}' \;
@@ -103,6 +106,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Dec 30 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091230-1
+- New stable snapshot - 0.9.2
+
 * Sat Dec 12 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091212-1
 - New development snapshot - 0.9.2 final prerelease snapshot
 
