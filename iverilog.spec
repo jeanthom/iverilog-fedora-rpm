@@ -1,43 +1,64 @@
-%define      snapshot 20070608
+# TODO for 1.0 release - redefine
+#Version:     0.9.%{snapshot}
+#Release:     6%{?dist}
+# to
+#Version:     1.0
+#Release:     1.snap%{snapshot}%{?dist}
+
+#
+# Test suite for iverilog is detailed on
+# https://fedorahosted.org/fedora-electronic-lab/wiki/Testing/iverilog
+# Please execute the testsuite as explained before pushing a new release to stable repos
+#
+
+%define      snapshot 20100928
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
 Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
+
 Group:       Applications/Engineering
-License:     GPL
+License:     GPLv2
 URL:         http://www.icarus.com/eda/verilog/index.html
-Source0:     ftp://icarus.com/pub/eda/verilog/snapshots/verilog-%{snapshot}.tar.gz
-Patch0:      %{name}-pagesize.patch
-BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# Development Snapshot Download :
+# git clone git://icarus.com/~steve-icarus/verilog
+# cd verilog
+# git checkout --track -b v0_9-branch origin/v0_9-branch
+# cd ..
+# tar cjf ~/rpmbuild/SOURCES/verilog-0.9.3.tar.bz2 verilog
+
+# This is the latest stable snapshot
+Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.3.tar.gz
+
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: zlib-devel bzip2-devel bison flex gperf
+BuildRequires: autoconf
+
+Provides:      iverilog-devel = %{version}-%{release}
+Obsoletes:     iverilog-devel < 0.9.20100911-1
 
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
 engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
 
-%package devel
-Summary:     Icarus Verilog devel files
-Group:       Development/Libraries
-Requires:    %{name} = %{version}-%{release}
-
-%description devel
-Icarus Verilog devel files.
-
 %prep
-%setup -q -n verilog-%{snapshot} 
-%patch0 -p0 -b .pagesize~
+%setup -q -n verilog-0.9.3
+
+#sh autoconf.sh
 
 # clean junks from tarball
-find . -type f -name ".cvsignore" -exec rm '{}' \;
+find . -type f -name ".git" -exec rm '{}' \;
 rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
+
 
 %build
 
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
-%configure  --disable-vvp32
+%configure
 
 make %{?_smp_mflags}
 
@@ -54,25 +75,78 @@ rm -rf %{buildroot}
              INSTALL="install -p" \
 install
 
+%check
+make check
+
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING README.txt BUGS.txt QUICK_START.txt ieee1364-notes.txt
-%doc swift.txt netlist.txt t-dll.txt vpi.txt xnf.txt tgt-fpga/fpga.txt
-%doc cadpli/cadpli.txt xilinx-hint.txt examples/*
+# contents of QUICK_START.txt can be found also on README.txt, hence omitted
+%doc attributes.txt BUGS.txt COPYING extensions.txt glossary.txt ieee1364-notes.txt
+%doc README.txt swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
+%doc va_math.txt cadpli/cadpli.txt xilinx-hint.txt examples/
 %{_bindir}/*
-%dir %{_libdir}/ivl
-%{_libdir}/ivl/*
+%{_libdir}/ivl
 %{_mandir}/man1/*
-
-%files devel
-%defattr(-,root,root,-)
+# headers for PLI: This is intended to be used by the user.
 %{_includedir}/*.h
-%exclude %{_libdir}/*.a
+# RHBZ 480531
+%{_libdir}/*.a
+
 
 %changelog
+* Tue Sep 28 2010 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20100928-1
+- new stable upstream release
+
+* Sat Sep 11 2010 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20100911-1
+- New sources for upcoming  - 0.9.3 - for testing repos only
+- removing useless -devel subpackage
+
+* Wed Dec 30 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091230-1
+- New stable snapshot - 0.9.2
+
+* Sat Dec 12 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091212-1
+- New development snapshot - 0.9.2 final prerelease snapshot
+
+* Sat Dec 05 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091205-1
+- New development snapshot - 0.9.2 prerelease snapshot
+
+* Fri Dec 04 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091204-1
+- New development snapshot - 0.9.2 prerelease snapshot
+
+* Sat Nov 28 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091130-1
+- New development snapshot
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20090423-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Mon Jun 13 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20090423-5
+- Improved VPI support
+
+* Mon Mar 23 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20081118-4
+- new development release
+
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20081118-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
+* Sun Dec 07 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20081118-1
+- new snapshot release upstream.
+
+* Fri Sep 12 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080905-1
+- new snapshot release upstream.
+
+* Mon May 26 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080429-1
+- new snapshot release upstream.
+
+* Fri Mar 28 2008 Balint Cristian <rezso@rdsor.ro> 0.9.20080314-1
+- new snapshot release upstream.
+- add check section for some tests
+
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.9.20070608-2
+- Autorebuild for GCC 4.3
+
 * Sun Jun 10 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070608-1
 - new snapshot release upstream.
 
@@ -80,7 +154,7 @@ rm -rf %{buildroot}
 - new snapshot release upstream.
 
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
-- new snapshoot release.
+- new snapshot release.
 
 * Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070123-5
 - clean junks from tarball
