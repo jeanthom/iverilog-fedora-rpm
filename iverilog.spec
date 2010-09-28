@@ -8,10 +8,10 @@
 #
 # Test suite for iverilog is detailed on
 # https://fedorahosted.org/fedora-electronic-lab/wiki/Testing/iverilog
-# Please execute the testsuite as explained before pushed a new release to stable repos
+# Please execute the testsuite as explained before pushing a new release to stable repos
 #
 
-%define      snapshot 20091230
+%define      snapshot 20100928
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -26,31 +26,27 @@ URL:         http://www.icarus.com/eda/verilog/index.html
 # git clone git://icarus.com/~steve-icarus/verilog
 # cd verilog
 # git checkout --track -b v0_9-branch origin/v0_9-branch
+# cd ..
+# tar cjf ~/rpmbuild/SOURCES/verilog-0.9.3.tar.bz2 verilog
 
 # This is the latest stable snapshot
-Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.2.tar.gz
+Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.3.tar.gz
 
-BuildRoot:   %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: zlib-devel bzip2-devel bison flex gperf
 BuildRequires: autoconf
 
+Provides:      iverilog-devel = %{version}-%{release}
+Obsoletes:     iverilog-devel < 0.9.20100911-1
 
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
 engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
 
-%package devel
-Summary:     Icarus Verilog devel files
-Group:       Development/Libraries
-Requires:    %{name} = %{version}-%{release}
-
-%description devel
-Icarus Verilog devel files.
-
 %prep
-%setup -q -n verilog-0.9.2
+%setup -q -n verilog-0.9.3
 
 #sh autoconf.sh
 
@@ -79,8 +75,6 @@ rm -rf %{buildroot}
              INSTALL="install -p" \
 install
 
-
-
 %check
 make check
 
@@ -96,9 +90,6 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_libdir}/ivl
 %{_mandir}/man1/*
-
-%files devel
-%defattr(-,root,root,-)
 # headers for PLI: This is intended to be used by the user.
 %{_includedir}/*.h
 # RHBZ 480531
@@ -106,6 +97,13 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep 28 2010 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20100928-1
+- new stable upstream release
+
+* Sat Sep 11 2010 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20100911-1
+- New sources for upcoming  - 0.9.3 - for testing repos only
+- removing useless -devel subpackage
+
 * Wed Dec 30 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20091230-1
 - New stable snapshot - 0.9.2
 
