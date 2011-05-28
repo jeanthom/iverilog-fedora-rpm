@@ -11,7 +11,7 @@
 # Please execute the testsuite as explained before pushing a new release to stable repos
 #
 
-%define      snapshot 20100928
+%define      snapshot 20110317
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -30,7 +30,7 @@ URL:         http://www.icarus.com/eda/verilog/index.html
 # tar cjf ~/rpmbuild/SOURCES/verilog-0.9.3.tar.bz2 verilog
 
 # This is the latest stable snapshot
-Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.3.tar.gz
+Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.4.tar.gz
 
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -46,7 +46,7 @@ engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
 
 %prep
-%setup -q -n verilog-0.9.3
+%setup -q -n verilog-0.9.4
 
 #sh autoconf.sh
 
@@ -97,6 +97,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat May 28 2011 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20110317-1
+- new stable upstream release 0.9.4
+
+* Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20100928-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Tue Sep 28 2010 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20100928-1
 - new stable upstream release
 
