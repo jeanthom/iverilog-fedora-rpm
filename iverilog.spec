@@ -11,7 +11,7 @@
 # Please execute the testsuite as explained before pushing a new release to stable repos
 #
 
-%define      snapshot 20110317
+%define      snapshot 20111101
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
@@ -20,17 +20,17 @@ Summary:     Icarus Verilog is a verilog compiler and simulator
 
 Group:       Applications/Engineering
 License:     GPLv2
-URL:         http://www.icarus.com/eda/verilog/index.html
+URL:         http://iverilog.icarus.com
 
 # Development Snapshot Download :
 # git clone git://icarus.com/~steve-icarus/verilog
 # cd verilog
 # git checkout --track -b v0_9-branch origin/v0_9-branch
 # cd ..
-# tar cjf ~/rpmbuild/SOURCES/verilog-0.9.3.tar.bz2 verilog
+# tar cjf ~/rpmbuild/SOURCES/verilog-0.9.5.tar.bz2 verilog
 
 # This is the latest stable snapshot
-Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.4.tar.gz
+Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.5.tar.gz
 
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -46,7 +46,7 @@ engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
 
 %prep
-%setup -q -n verilog-0.9.4
+%setup -q -n verilog-0.9.5
 
 #sh autoconf.sh
 
@@ -97,6 +97,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Nov 01 2011 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20111101-1
+- new stable upstream release 0.9.5
+
 * Sat May 28 2011 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20110317-1
 - new stable upstream release 0.9.4
 
