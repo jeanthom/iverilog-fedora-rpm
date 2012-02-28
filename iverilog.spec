@@ -15,7 +15,7 @@
 
 Name:        iverilog
 Version:     0.9.%{snapshot}
-Release:     2%{?dist}
+Release:     3%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 
 Group:       Applications/Engineering
@@ -97,6 +97,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Feb 28 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20111101-3
+- Rebuilt for c++ ABI breakage
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20111101-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
