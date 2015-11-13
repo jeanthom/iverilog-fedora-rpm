@@ -1,70 +1,55 @@
-# TODO for 1.0 release - redefine
-#Version:     0.9.%{snapshot}
-#Release:     6%{?dist}
-# to
-#Version:     1.0
-#Release:     1.snap%{snapshot}%{?dist}
-
-#
-# Test suite for iverilog is detailed on
-# https://fedorahosted.org/fedora-electronic-lab/wiki/Testing/iverilog
-# Please execute the testsuite as explained before pushing a new release to stable repos
-#
-
-%define      snapshot 20120609
-
+%global commit 6d0ab9978f036e6029858e0d1b0bdab52e3fbad7
+%global shortcommit %(c=%{commit}; echo ${c:0:7})
+ 
 Name:        iverilog
-Version:     0.9.%{snapshot}
-Release:     7%{?dist}
+Version:     10
+Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
-
+ 
 Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://iverilog.icarus.com
-
-# Development Snapshot Download :
-# git clone git://icarus.com/~steve-icarus/verilog
-# cd verilog
-# git checkout --track -b v0_9-branch origin/v0_9-branch
-# cd ..
-# tar cjf ~/rpmbuild/SOURCES/verilog-0.9.6.tar.bz2 verilog
-
-# This is the latest stable snapshot
-Source0:       ftp://ftp.icarus.com/pub/eda/verilog/v0.9/verilog-0.9.6.tar.gz
-
-BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires: zlib-devel bzip2-devel bison flex gperf
+ 
+Source0:       http://github.com/steveicarus/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
+ 
 BuildRequires: autoconf
-
-Provides:      iverilog-devel = %{version}-%{release}
-Obsoletes:     iverilog-devel < 0.9.20100911-1
-
+BuildRequires: zlib-devel bzip2-devel bison flex gperf gcc-c++ readline-devel
+#Provides:      iverilog-devel = %{version}-%{release}
+#Obsoletes:     iverilog-devel < 0.9.20100911-1
+ 
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
 engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
-
+ 
 %prep
-%setup -q -n verilog-0.9.6
-
-#sh autoconf.sh
-
-# clean junks from tarball
+%setup -q -n %{name}-%{commit}
+ 
+# Clean junks from tarball
 find . -type f -name ".git" -exec rm '{}' \;
 rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
-
-
+ 
+ 
 %build
+ 
+chmod +x autoconf.sh
+
+
+./autoconf.sh
 
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
+ 
+# Add configure to get good results
 %configure
-
+ 
+# Try to build across three CPUs.
 make %{?_smp_mflags}
-
+ 
 %install
+ 
+# Make a clean install
 rm -rf %{buildroot}
-
+ 
 %{__make}    prefix=%{buildroot}%{_prefix} \
              bindir=%{buildroot}%{_bindir} \
              libdir=%{buildroot}%{_libdir} \
@@ -74,19 +59,20 @@ rm -rf %{buildroot}
              vpidir=%{buildroot}%{_libdir}/ivl/ \
              INSTALL="install -p" \
 install
-
+ 
 %check
 make check
-
+ 
 %clean
-rm -rf %{buildroot}
-
+#rm -rf %{buildroot}
+ 
 %files
 %defattr(-,root,root,-)
-# contents of QUICK_START.txt can be found also on README.txt, hence omitted
-%doc attributes.txt BUGS.txt COPYING extensions.txt glossary.txt ieee1364-notes.txt
-%doc README.txt swift.txt netlist.txt t-dll.txt vpi.txt tgt-fpga/fpga.txt
-%doc va_math.txt cadpli/cadpli.txt xilinx-hint.txt examples/
+%doc BUGS.txt COPYING README.txt QUICK_START.txt  
+%doc ieee1364-notes.txt mingw.txt swift.txt netlist.txt
+%doc t-dll.txt vpi.txt cadpli/cadpli.txt
+%doc xilinx-hint.txt examples/
+%doc va_math.txt tgt-fpga/fpga.txt extensions.txt glossary.txt attributes.txt
 %{_bindir}/*
 %{_libdir}/ivl
 %{_mandir}/man1/*
@@ -94,9 +80,12 @@ rm -rf %{buildroot}
 %{_includedir}/*.h
 # RHBZ 480531
 %{_libdir}/*.a
-
-
+ 
+ 
 %changelog
+* Wed Nov 11 2015 Kiara Navarro <sophiekovalevsky@fedoraproject.org> - 10-1
+- Bump to upstream version.
+
 * Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20120609-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
