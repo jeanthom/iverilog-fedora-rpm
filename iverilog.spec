@@ -3,7 +3,7 @@
  
 Name:        iverilog
 Version:     10
-Release:     6%{?dist}
+Release:     7%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
  
 Group:       Applications/Engineering
@@ -31,10 +31,7 @@ rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
  
  
 %build
- 
 chmod +x autoconf.sh
-
-
 ./autoconf.sh
 
 CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
@@ -46,9 +43,6 @@ CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
 make %{?_smp_mflags}
  
 %install
- 
-# Make a clean install
-rm -rf %{buildroot}
  
 %{__make}    prefix=%{buildroot}%{_prefix} \
              bindir=%{buildroot}%{_bindir} \
@@ -63,11 +57,8 @@ install
 %check
 make check
  
-%clean
-#rm -rf %{buildroot}
  
 %files
-%defattr(-,root,root,-)
 %doc BUGS.txt COPYING README.txt QUICK_START.txt  
 %doc ieee1364-notes.txt mingw.txt swift.txt netlist.txt
 %doc t-dll.txt vpi.txt cadpli/cadpli.txt
@@ -83,6 +74,8 @@ make check
  
  
 %changelog
+* Wed Aug 09 2017 Filipe Rosset <rosset.filipe@gmail.com> - 10-7
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
@@ -165,7 +158,7 @@ make check
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.20090423-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
-* Mon Jun 13 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20090423-5
+* Sat Jun 13 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20090423-5
 - Improved VPI support
 
 * Mon Mar 23 2009 Chitlesh Goorah <chitlesh [AT] fedoraproject DOT org> - 0.9.20081118-4
@@ -196,22 +189,22 @@ make check
 * Mon Apr 23 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070421-1
 - new snapshot release upstream.
 
-* Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
+* Tue Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070227-1
 - new snapshot release.
 
-* Thu Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070123-5
+* Tue Feb 27 2007 Balint Cristian <cbalint@redhat.com> 0.9.20070123-5
 - clean junks from tarball
 - exlude static library
 - smp build seems fine
 - use snapshot instead of cvsver macro
 - follow package n-v-r from fedora standard
 
-* Thu Feb 23 2007 Balint Cristian <cbalint@redhat.com> 20070123-4
+* Fri Feb 23 2007 Balint Cristian <cbalint@redhat.com> 20070123-4
 - use cvsver macro
 - move examples in main.
 - more spec cleanup
 
-* Thu Feb 23 2007 Balint Cristian <cbalint@redhat.com> 20070123-3
+* Fri Feb 23 2007 Balint Cristian <cbalint@redhat.com> 20070123-3
 - buildroot coherency in spec
 
 * Thu Feb 22 2007 Balint Cristian <cbalint@redhat.com> 20070123-2
