@@ -1,6 +1,6 @@
 Name:        iverilog
 Version:     10_2
-Release:     1%{?dist}
+Release:     2%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 Group:       Applications/Engineering
 License:     GPLv2
@@ -9,7 +9,14 @@ URL:         http://iverilog.icarus.com
 Source0:     iverilog-10_2.tar.gz
  
 BuildRequires: autoconf
-BuildRequires: zlib-devel bzip2-devel bison flex gperf gcc-c++ readline-devel
+BuildRequires: bzip2-devel
+BuildRequires: bison
+BuildRequires: flex
+BuildRequires: gperf
+BuildRequires: gcc-c++
+BuildRequires: readline-devel
+BuildRequires: zlib-devel
+
  
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
@@ -47,11 +54,11 @@ make check
  
 %files
 %doc BUGS.txt README.txt QUICK_START.txt
-%license COPYING
 %doc ieee1364-notes.txt mingw.txt swift.txt netlist.txt
 %doc t-dll.txt vpi.txt cadpli/cadpli.txt
 %doc xilinx-hint.txt examples/
 %doc va_math.txt tgt-fpga/fpga.txt extensions.txt glossary.txt attributes.txt
+%license COPYING
 %{_bindir}/*
 %{_libdir}/ivl
 %{_mandir}/man1/*
@@ -62,6 +69,9 @@ make check
  
  
 %changelog
+* Tue Apr 10 2018 Filipe Rosset <rosset.filipe@gmail.com> - 10_2-2
+- spec cleanup (thanks to Vasiliy N. Glazov <vascom2@gmail.com)
+
 * Mon Apr 09 2018 Filipe Rosset <rosset.filipe@gmail.com> - 10_2-1
 - update to latest 10_2 upstream version + spec cleanup
 
