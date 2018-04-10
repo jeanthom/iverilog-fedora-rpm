@@ -1,21 +1,15 @@
-%global commit 6d0ab9978f036e6029858e0d1b0bdab52e3fbad7
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
- 
 Name:        iverilog
-Version:     10
-Release:     8%{?dist}
+Version:     10_2
+Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
- 
 Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://iverilog.icarus.com
- 
-Source0:       http://github.com/steveicarus/%{name}/archive/%{commit}/%{name}-%{commit}.tar.gz
+#fix ugly Source0
+Source0:     iverilog-10_2.tar.gz
  
 BuildRequires: autoconf
 BuildRequires: zlib-devel bzip2-devel bison flex gperf gcc-c++ readline-devel
-#Provides:      iverilog-devel = %{version}-%{release}
-#Obsoletes:     iverilog-devel < 0.9.20100911-1
  
 %description
 Icarus Verilog is a Verilog compiler that generates a variety of
@@ -23,27 +17,20 @@ engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
  
 %prep
-%setup -q -n %{name}-%{commit}
- 
+%autosetup
+
 # Clean junks from tarball
 find . -type f -name ".git" -exec rm '{}' \;
 rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
- 
- 
+
 %build
 chmod +x autoconf.sh
-./autoconf.sh
-
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" \
- 
-# Add configure to get good results
+sh autoconf.sh
 %configure
- 
-# Try to build across three CPUs.
-make %{?_smp_mflags}
+%make_build
+
  
 %install
- 
 %{__make}    prefix=%{buildroot}%{_prefix} \
              bindir=%{buildroot}%{_bindir} \
              libdir=%{buildroot}%{_libdir} \
@@ -59,7 +46,8 @@ make check
  
  
 %files
-%doc BUGS.txt COPYING README.txt QUICK_START.txt  
+%doc BUGS.txt README.txt QUICK_START.txt
+%license COPYING
 %doc ieee1364-notes.txt mingw.txt swift.txt netlist.txt
 %doc t-dll.txt vpi.txt cadpli/cadpli.txt
 %doc xilinx-hint.txt examples/
@@ -74,10 +62,14 @@ make check
  
  
 %changelog
+* Mon Apr 09 2018 Filipe Rosset <rosset.filipe@gmail.com> - 10_2-1
+- update to latest 10_2 upstream version + spec cleanup
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 10-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
 * Wed Aug 09 2017 Filipe Rosset <rosset.filipe@gmail.com> - 10-7
+- rebuilt
 
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 10-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
