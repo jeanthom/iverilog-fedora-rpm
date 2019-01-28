@@ -2,7 +2,6 @@ Name:        iverilog
 Version:     10_2
 Release:     3%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
-Group:       Applications/Engineering
 License:     GPLv2
 URL:         http://iverilog.icarus.com
 #fix ugly Source0
