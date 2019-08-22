@@ -1,12 +1,11 @@
 Name:        iverilog
-Version:     10_2
-Release:     6%{?dist}
+Version:     10.3
+%define uver 10_3
+Release:     1%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 License:     GPLv2
 URL:         http://iverilog.icarus.com
-#fix ugly Source0
-Source0:     iverilog-10_2.tar.gz
- 
+Source0:     https://github.com/steveicarus/iverilog/archive/%{name}-%{uver}.tar.gz
 BuildRequires: autoconf
 BuildRequires: bzip2-devel
 BuildRequires: bison
@@ -23,8 +22,7 @@ engineering formats, including simulation. It strives to be true
 to the IEEE-1364 standard.
  
 %prep
-%autosetup
-
+%autosetup -n %{name}-%{uver}
 # Clean junks from tarball
 find . -type f -name ".git" -exec rm '{}' \;
 rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
@@ -33,7 +31,9 @@ rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
 chmod +x autoconf.sh
 sh autoconf.sh
 %configure
-%make_build
+
+# use make, avoid use V=1 due https://github.com/steveicarus/iverilog/issues/262
+make %{?_smp_mflags}
 
  
 %install
@@ -68,6 +68,9 @@ make check
  
  
 %changelog
+* Sun Aug 18 2019 Filipe Rosset <rosset.filipe@gmail.com> - 10.3-1
+- Update to 10.3 fixes rhbz#1742864
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 10_2-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
