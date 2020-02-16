@@ -1,7 +1,7 @@
 Name:        iverilog
 Version:     10.3
 %define uver 10_3
-Release:     2%{?dist}
+Release:     3%{?dist}
 Summary:     Icarus Verilog is a verilog compiler and simulator
 License:     GPLv2
 URL:         http://iverilog.icarus.com
@@ -30,6 +30,7 @@ rm -rf `find . -type d -name "autom4te.cache" -exec echo '{}' \;`
 %build
 chmod +x autoconf.sh
 sh autoconf.sh
+export CPPFLAGS="$CPPFLAGS -fcommon"
 %configure
 
 # use make, avoid use V=1 due https://github.com/steveicarus/iverilog/issues/262
@@ -68,6 +69,9 @@ make check
  
  
 %changelog
+* Sun Feb 16 2020 Filipe Rosset <rosset.filipe@gmail.com> - 10.3-3
+- Fix FTBFS rhbz#1799526
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 10.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
